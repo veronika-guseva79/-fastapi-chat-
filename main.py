@@ -35,7 +35,7 @@ except Exception as e:
     model_napr = None
 
 try:
-    with open(MODEL_PATH_REZ', 'rb') as file:
+    with open(MODEL_PATH_REZ, 'rb') as file:
         model_rez = load(file)
     print("Модель загружена успешно")
 except Exception as e:
