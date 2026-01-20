@@ -261,7 +261,7 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     except ValueError:
         return {"error": "Некорректный формат данных."}
 
-    data_array = [feature_1, feature_2, feature_3, feature_4]
+     data_array = [feature_1, feature_2, feature_3, feature_4]
     print(data_array)
     prediction_napr= int(model_napr.predict(data_array[1:4]))
     prediction_text_napr = get_prediction_text_napr(prediction_napr)
