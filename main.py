@@ -178,7 +178,7 @@ async def simple_form():
     </html>
     """
 
-    @app.get('/calculate')
+@app.get('/calculate')
 def calculate(field1: str = Query(description='1. Какой у Вас стаж?'),
               field2: str = Query(description='2. "Обычно мне очень скучно."    1 2 3 4 5 6 7    "Обычно я полон энергии."'),
     field3: str = Query(description='3. "Жизнь кажется мне совершенно спокойной и рутинной."    1 2 3 4 5 6 7    "Жизнь кажется мне всегда волнующей и захватывающей."'),
