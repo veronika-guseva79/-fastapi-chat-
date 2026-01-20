@@ -24,9 +24,9 @@ app = FastAPI(title="Стадия Эмоционального Выгорани�
 active_connections = []
 
 # Загружаем модели
-MODEL_PATH_NAPR = os.path.join(os.path.dirname(__file__), "models", "model_napr.pkl")
-MODEL_PATH_REZ = os.path.join(os.path.dirname(__file__), "models", "model_rez.pkl")
-MODEL_PATH_IST = os.path.join(os.path.dirname(__file__), "models", "model_ist.pkl")
+MODEL_PATH_NAPR = "models/model_napr.pkl"
+MODEL_PATH_REZ = "models/model_rez.pkl"
+MODEL_PATH_IST = "models/model_ist.pkl"
 try:
     with open(MODEL_PATH_NAPR, 'rb') as file:
         model_napr = load(file)
