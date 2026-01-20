@@ -53,7 +53,7 @@ def get_prediction_text_napr(prediction):
     """
     if prediction < 37:
         return 'У вас низкий риск попасть в фазу Напряжение.'
-        elif prediction >=37 and prediction<60:
+    elif prediction >=37 and prediction<60:
         return 'У вас средний риск попасть в фазу Напряжение. Можно подумать о повышении эмоциональной насыщенности жизни.'
     else:
         return 'У вас высокий риск попасть в фазу Напряжение. Необходимо поработать над эмоциональной насыщенностью жизни.'
