@@ -23,8 +23,24 @@ app = FastAPI(title="Стадия Эмоционального Выгорани�
 # Храним активные подключения
 active_connections = []
 
+from pathlib import Path
+
+
+
+
+
 # Загружаем модели
 MODEL_PATH_NAPR = "models/model_napr.pkl"
+# Диагностика: проверьте существование файла
+print(f"Текущая рабочая директория: {os.getcwd()}")
+print(f"Путь к модели: {MODEL_PATH_NAPR}")
+print(f"Абсолютный путь: {os.path.abspath(MODEL_PATH_NAPR)}")
+
+# Проверка существования файла
+if os.path.exists(MODEL_PATH_NAPR):
+    print(f"✅ Файл модели существует, размер: {os.path.getsize(MODEL_PATH_NAPR)} байт")
+else:
+    print(f"❌ Файл модели НЕ существует!")
 MODEL_PATH_REZ = "models/model_rez.pkl"
 MODEL_PATH_IST = "models/model_ist.pkl"
 try:
@@ -267,7 +283,6 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     prediction_text_napr = get_prediction_text_napr(prediction_napr)
             
     data_df = pd.DataFrame([data_array[2:4]], columns=['ж_1', 'ж_2'])
-    print(data_array[2:4])
     prediction_rez= int(model_rez.predict(data_df)[0])
     prediction_text_rez = get_prediction_text_rez(prediction_rez)
 
