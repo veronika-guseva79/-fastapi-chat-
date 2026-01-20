@@ -23,8 +23,11 @@ app = FastAPI(title="Стадия Эмоционального Выгорани�
 active_connections = []
 
 # Загружаем модели
+MODEL_PATH_NAPR = os.path.join(os.path.dirname(__file__), "models", "model_napr.pkl")
+MODEL_PATH_REZ = os.path.join(os.path.dirname(__file__), "models", "model_rez.pkl")
+MODEL_PATH_IST = os.path.join(os.path.dirname(__file__), "models", "model_ist.pkl")
 try:
-    with open('C:\\Users\\N\\Documents\\Документы\\Data science\\Карьерный трек\\Сарафан\\depr\\napr.pkl', 'rb') as file:
+    with open(MODEL_PATH_NAPR, 'rb') as file:
         model_napr = load(file)
     print("Модель загружена успешно")
 except Exception as e:
@@ -32,7 +35,7 @@ except Exception as e:
     model_napr = None
 
 try:
-    with open('C:\\Users\\N\\Documents\\Документы\\Data science\\Карьерный трек\\Сарафан\\depr\\rez.pkl', 'rb') as file:
+    with open(MODEL_PATH_REZ', 'rb') as file:
         model_rez = load(file)
     print("Модель загружена успешно")
 except Exception as e:
@@ -40,7 +43,7 @@ except Exception as e:
     model_rez = None
 
 try:
-    with open('C:\\Users\\N\\Documents\\Документы\\Data science\\Карьерный трек\\Сарафан\\depr\\ist.pkl', 'rb') as file:
+    with open(MODEL_PATH_IST, 'rb') as file:
         model_ist = load(file)
     print("Модель загружена успешно")
 except Exception as e:
@@ -239,7 +242,7 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     except ValueError:
         return {"error": "Некорректный формат данных."}
 
-        data_2 = f"{field8},{field9},{field10},{field11},{field12},{field13},{field14},{field15},{field16},{field17},{field18},{field19},{field20},{field21},{field22},{field23},{field24},{field25}"
+    data_2 = f"{field8},{field9},{field10},{field11},{field12},{field13},{field14},{field15},{field16},{field17},{field18},{field19},{field20},{field21},{field22},{field23},{field24},{field25}"
 
     # Преобразуем строку в список чисел
     try:
