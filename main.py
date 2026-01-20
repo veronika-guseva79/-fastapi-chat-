@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from typing import List
 import uvicorn
 
-import nest_asyncio
+#import nest_asyncio
 from fastapi import FastAPI, Query, HTTPException
 import httpx
 import pickle
@@ -14,7 +14,7 @@ from fastapi.responses import HTMLResponse
 import pandas as pd
 
 # Применяем nest_asyncio для работы в Jupyter
-nest_asyncio.apply()
+#nest_asyncio.apply()
 
 
 app = FastAPI(title="Стадия Эмоционального Выгорания: AI детектор")
