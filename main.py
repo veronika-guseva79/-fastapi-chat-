@@ -12,6 +12,7 @@ from joblib import load
 import numpy as np
 from fastapi.responses import HTMLResponse
 import pandas as pd
+import os
 
 # Применяем nest_asyncio для работы в Jupyter
 #nest_asyncio.apply()
