@@ -27,6 +27,21 @@ from pathlib import Path
 
 
 
+import pickle
+
+with open('models/model_napr.pkl', 'rb') as f:
+    # Пытаемся загрузить без выполнения
+    try:
+        data = pickle.load(f)
+        print(f"✅ Модель загружена: {type(data)}")
+    except Exception as e:
+        print(f"❌ Ошибка: {e}")
+        
+    # Попробуем прочитать метаданные
+    f.seek(0)
+    content = f.read(1000)  # первые 1000 байт
+    if b'scikit-learn' in content:
+        print("Модель содержит scikit-learn")
 
 
 # Загружаем модели
@@ -35,6 +50,7 @@ MODEL_PATH_NAPR = "models/model_napr.pkl"
 print(f"Текущая рабочая директория: {os.getcwd()}")
 print(f"Путь к модели: {MODEL_PATH_NAPR}")
 print(f"Абсолютный путь: {os.path.abspath(MODEL_PATH_NAPR)}")
+
 
 # Проверка существования файла
 if os.path.exists(MODEL_PATH_NAPR):
