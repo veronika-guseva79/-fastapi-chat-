@@ -107,10 +107,13 @@ async def simple_form():
         <form action="/calculate">
             Введите ответы на вопросы: <br>
             <br>
+            0. Сколько Вам полных лет? <br>
+            <input type="text" name="field1" value="" style="width: 100px"><br>
+            <br>
             1. Какой у Вас стаж? <br>
             <input type="text" name="field1" value="" style="width: 100px"><br>
             <br>
-            Далее Вам будут предложены пары противоположных утверждений. Выберите вариант более точного соответствия вашему состоянию между двумя утверждениями. 1 - максимальное соответствие утверждению слева,  7 - утверждению справа.<br>
+            В вопросах 2-7 Вам будут предложены пары противоположных утверждений. Выберите вариант более точного соответствия вашему состоянию между двумя утверждениями. 1 - максимальное соответствие утверждению слева,  7 - утверждению справа.<br>
             <br>
             2. "Обычно мне очень скучно."    1 2 3 4 5 6 7    "Обычно я полон энергии." <br>
             <input type="text" name="field2" value="" style="width: 100px"><br>
@@ -130,7 +133,7 @@ async def simple_form():
             7. "Моя жизнь пуста и неинтересна."    1 2 3 4 5 6 7    "Моя жизнь наполнена интересными делами." <br>
             <input type="text" name="field7" value="" style="width: 100px"><br>
             <br>
-            Далее Вам будут предложены утверждения. Дайте один ответ на каждый вопрос, где 0 - нет, 1 - скорее нет, 2 - скорее да, 3 - да. <br>
+            В вопросах 8-25 Вам будут предложены утверждения. Дайте один ответ на каждый вопрос, где 0 - нет, 1 - скорее нет, 2 - скорее да, 3 - да. <br>
             <br>
             8. "Иногда мне кажется, что никому нет до меня дела." <br>
             <input type="text" name="field8" value="" style="width: 100px"><br>
@@ -195,7 +198,8 @@ async def simple_form():
     """
 
 @app.get('/calculate')
-def calculate(field1: str = Query(description='1. Какой у Вас стаж?'),
+def calculate(field0: str = Query(description='0. Сколько Вам полных лет?'),
+              field1: str = Query(description='1. Какой у Вас стаж?'),
               field2: str = Query(description='2. "Обычно мне очень скучно."    1 2 3 4 5 6 7    "Обычно я полон энергии."'),
     field3: str = Query(description='3. "Жизнь кажется мне совершенно спокойной и рутинной."    1 2 3 4 5 6 7    "Жизнь кажется мне всегда волнующей и захватывающей."'),
     field4: str = Query(description='4. "Моя жизнь представляется мне крайне бессмысленной и бесцельной."    1 2 3 4 5 6 7    "Моя жизнь представляется мне вполне осмысленной и целеустремленной."'),
@@ -221,6 +225,19 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     field24: str = Query(description='24. "Бывает, на меня наваливается столько проблем, что просто руки опускаются."'),
     field25: str = Query(description='25. "Друзья уважают меня за упорство и непреклонность." ')
     ):
+    data_0= f"{field0}"
+    try:
+        
+                    
+        feature_0 = float(data_0) 
+        
+        #Проверяем количество признаков
+        #if len(feature_1) != 1:
+        #    return {"error": "Нужно ровно 1 число"}
+        
+    except ValueError:
+        return {"error": "Некорректный формат данных."}
+        
     data = f"{field1}"
     try:
         
@@ -273,16 +290,17 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     except ValueError:
         return {"error": "Некорректный формат данных."}
 
-    data_array = [feature_1, feature_2, feature_3, feature_4]
-    print(data_array)
-    prediction_napr= int(model_napr.predict(data_array[1:4]))
+    data_array = [feature_0, feature_1, feature_2, feature_3, feature_4]
+    #print(data_array)
+    data_df = pd.DataFrame([data_array[2:5]], columns=['возраст', 'стаж ', 'ж_1', 'ж_2'])
+    prediction_napr= int(model_napr.predict(data_df)[0])
     prediction_text_napr = get_prediction_text_napr(prediction_napr)
             
-    data_df = pd.DataFrame([data_array[2:4]], columns=['ж_1', 'ж_2'])
+    data_df = pd.DataFrame([data_array[0,1,3,4]], columns=['возраст', 'стаж ', 'ж_1', 'ж_2'])
     prediction_rez= int(model_rez.predict(data_df)[0])
     prediction_text_rez = get_prediction_text_rez(prediction_rez)
 
-    data_df = pd.DataFrame([data_array], columns=['стаж', 'со_2', 'ж_1', 'ж_2'])
+    data_df = pd.DataFrame([data_array[2:5]], columns=['со_2', 'ж_1', 'ж_2'])
     prediction_ist= int(model_ist.predict(data_df)[0])
     #data_2d = np.array(data_array).reshape(1, -1)
     #prediction_ist= int(model_ist.predict(data_2d)[0])
@@ -290,7 +308,8 @@ def calculate(field1: str = Query(description='1. Какой у Вас стаж?
     prediction_text_ist = get_prediction_text_ist(prediction_ist)
 
      
-    return {'cтаж': feature_1,
+    return {    'возраст': feature_0,
+                'cтаж': feature_1,
                 'со_2': feature_2,
                 'ж_1': feature_3,
                 'ж_2': feature_4,
