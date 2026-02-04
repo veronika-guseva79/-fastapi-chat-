@@ -289,7 +289,7 @@ def calculate(field0: str = Query(description='0. Сколько Вам полн
 
     data_array = [feature_0, feature_1, feature_2, feature_3, feature_4]
     #print(data_array)
-    data_df = pd.DataFrame([data_array[2:5]], columns=['возраст', 'стаж ', 'ж_1', 'ж_2'])
+    data_df = pd.DataFrame([data_array[2:5]], columns=['со_2', 'ж_1', 'ж_2'])
     prediction_napr= int(model_napr.predict(data_df)[0])
     prediction_text_napr = get_prediction_text_napr(prediction_napr)
             
