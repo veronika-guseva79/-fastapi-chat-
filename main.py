@@ -70,9 +70,9 @@ def get_prediction_text_napr(prediction):
     if prediction < 37:
         return 'У вас низкий риск попасть в фазу Напряжение.'
     elif prediction >=37 and prediction<60:
-        return 'У вас средний риск попасть в фазу Напряжение. Можно подумать о повышении эмоциональной насыщенности жизни.'
+        return 'У вас средний риск попасть в фазу Напряжение. Можно подумать о повышении эмоциональной насыщенности жизни и контроля над происходящим..'
     else:
-        return 'У вас высокий риск попасть в фазу Напряжение. Необходимо поработать над эмоциональной насыщенностью жизни.'
+        return 'У вас высокий риск попасть в фазу Напряжение. Необходимо поработать над эмоциональной насыщенностью жизни и контролем над происходящим..'
         
 def get_prediction_text_rez(prediction):
     """
@@ -81,9 +81,9 @@ def get_prediction_text_rez(prediction):
     if prediction < 37:
         return 'У вас низкий риск попасть в фазу Резистенция.'
     elif prediction >=37 and prediction<60:
-        return 'У вас средний риск попасть в фазу Резистенция. Можно подумать о повышении вовлеченности в Вашу деятельность.'
+        return 'У вас средний риск попасть в фазу Резистенция. Можно подумать о повышении вовлеченности в Вашу деятельность и контроля над происходящим.'
     else:
-        return 'У вас высокий риск попасть в фазу Резистенция. Необходимо поработать над вовлеченностью в Вашу деятельность.'
+        return 'У вас высокий риск попасть в фазу Резистенция. Необходимо поработать над вовлеченностью в Вашу деятельность и контролем над происходящим.'
 
 def get_prediction_text_ist(prediction):
     """
@@ -92,10 +92,10 @@ def get_prediction_text_ist(prediction):
     if prediction < 37:
         return 'У вас низкий риск попасть в фазу Истощение.'
     elif prediction >=37 and prediction<60:
-        return 'У вас средний риск попасть в фазу Истощение. Можно подумать о повышении контроля над происходящим и эмоциональной насыщенности жизни.'
+        return 'У вас средний риск попасть в фазу Истощение. Можно подумать о повышении эмоциональной насыщенности жизни, затем над повышением вовлеченности в деятельность и контроля над происходящим.'
     else:
-        return 'У вас высокий риск попасть в фазу Истощение. Необходимо поработать над повышением контроля над происходящим и о повышении эмоциональной насыщенности жизни.'
-
+        return 'У вас высокий риск попасть в фазу Истощение. Необходимо поработать над повышением эмоциональной насыщенности жизни, затем над возвращением вовлеченности в деятельность и контроля над происходящим.'
+        
         
 @app.get('/', response_class=HTMLResponse)
 
@@ -108,7 +108,7 @@ async def simple_form():
             Введите ответы на вопросы: <br>
             <br>
             0. Сколько Вам полных лет? <br>
-            <input type="text" name="field1" value="" style="width: 100px"><br>
+            <input type="text" name="field0" value="" style="width: 100px"><br>
             <br>
             1. Какой у Вас стаж? <br>
             <input type="text" name="field1" value="" style="width: 100px"><br>
@@ -272,7 +272,7 @@ def calculate(field0: str = Query(description='0. Сколько Вам полн
     except ValueError:
         return {"error": "Некорректный формат данных."}
 
-    data_2 = f"{field8},{field9},{field10},{field11},{field12},{field13},{field14},{field15},{field16},{field17},{field18},{field19},{field20},{field21},{field22},{field23},{field24},{field25}"
+    data_2 = f"{field8},{field9},{field10},{field11},{field12},{field13},{field14},{field15},{field16},{field17},{field18},{field19},{field20},{field21},     {field22},{field23},{field24},{field25}"
 
     # Преобразуем строку в список чисел
     try:
@@ -302,9 +302,6 @@ def calculate(field0: str = Query(description='0. Сколько Вам полн
 
     data_df = pd.DataFrame([data_array[2:5]], columns=['со_2', 'ж_1', 'ж_2'])
     prediction_ist= int(model_ist.predict(data_df)[0])
-    #data_2d = np.array(data_array).reshape(1, -1)
-    #prediction_ist= int(model_ist.predict(data_2d)[0])
-   
     prediction_text_ist = get_prediction_text_ist(prediction_ist)
 
      
@@ -334,12 +331,3 @@ async def websocket_endpoint(websocket: WebSocket):
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=10000, reload=True)
 
-#if __name__ == '__main__':
-#    config = uvicorn.Config(app=app, host="0.0.0.0", port=8080)
-#    server = uvicorn.Server(config)
-    
-    # Запускаем в текущем event loop
-#    import asyncio
-#    loop = asyncio.get_event_loop()
-#    loop.create_task(server.serve())
-#    print("Сервер запущен на http://localhost:8080")
