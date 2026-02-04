@@ -14,9 +14,6 @@ from fastapi.responses import HTMLResponse
 import pandas as pd
 import os
 
-# Применяем nest_asyncio для работы в Jupyter
-#nest_asyncio.apply()
-
 
 app = FastAPI(title="Стадия Эмоционального Выгорания: AI детектор")
 
